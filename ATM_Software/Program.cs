@@ -15,7 +15,7 @@ namespace ATM_Software
                 -1 => null,
                 _  => new CustomerInterface()
             };
-            while (userType != -1 && atm.menu(userType));
+            while (userType != -1 && atm.menu(userType)) ;
         }
     }
 }
