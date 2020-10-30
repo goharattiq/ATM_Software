@@ -12,12 +12,15 @@ namespace ATM_Software_DAL
             StreamReader sr = new StreamReader(filePath);
             string line = String.Empty;
             string last = String.Empty;
+            int lastNumber = 0;
             while ((line = sr.ReadLine()) != null && line != String.Empty)
-                last = line.Split(",")[0];
+            {
+                if (lastNumber < int.Parse(line.Split(",")?[0]))
+                    lastNumber = int.Parse(line.Split(",")?[0]);
+            }
+
             sr.Close();
-            if (last == String.Empty)
-                last = "-1";
-            return int.Parse(last);
+            return lastNumber;
         }
         public static void overWriteOnFile(ArrayList lists, string fileName)
         {

@@ -209,7 +209,7 @@ namespace ATM_Software_View
                 ATMInterface.changeTextColor(Color.Green);
                 pinCode = ReadLine();
                 ATMInterface.changeTextColor(Color.Gray);
-                if (pinCode.Length != 5 || !Regex.Match(pinCode, @"\d\d\d\d\d").Success)
+                if (!(pinCode == String.Empty)  && ( pinCode.Length != 5 || !Regex.Match(pinCode, @"\d\d\d\d\d").Success))
                     throw new Exception("Pin Code is incorrect format");
             }
             catch (Exception ex)

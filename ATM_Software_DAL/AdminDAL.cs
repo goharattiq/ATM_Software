@@ -29,19 +29,6 @@ namespace ATM_Software_DAL
             sw.WriteLine($"{account.ID},{account.Balance},{(int)account.Status},{(int)account.Type}");
             sw.Close();
         }
-        public int getLastNumber(string fileName)
-        {
-            string filePath = Path.Combine(Environment.CurrentDirectory, fileName);
-            StreamReader sr = new StreamReader(filePath);
-            string line = String.Empty;
-            string last = String.Empty;
-            while ((line = sr.ReadLine()) != null && line != String.Empty)
-                last = line.Split(",")[0];
-            sr.Close();
-            if (last == String.Empty)
-                last = "-1";
-            return int.Parse(last);
-        }
         public void overWriteOnFile(ArrayList lists, string fileName)
         {
             string filePath = Path.Combine(Environment.CurrentDirectory, fileName);

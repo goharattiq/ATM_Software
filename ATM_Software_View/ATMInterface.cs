@@ -92,7 +92,7 @@ namespace ATM_Software_View
         }
         public static void delay()
         {
-            Write("Press any key to resume.....");
+            Write("\nPress any key to resume.....");
             ReadKey();
         }
         public bool validateInput(char keyPressed,char from,char to)

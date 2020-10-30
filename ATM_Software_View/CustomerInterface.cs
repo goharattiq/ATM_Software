@@ -11,10 +11,11 @@ namespace ATM_Software_View
         public delegate bool customerDelegator();
         public override bool menu(int userType)
         {
+            Clear();
             CustomerBLL bll = new CustomerBLL();
             this.customer = bll.getPerson(-2,userType);
             ATMInterface.changeTextColor(Color.Gray);
-            WriteLine("Welcome in Customer menu");
+            WriteLine("\nWelcome in Customer menu");
             WriteLine("1----Withdraw Cash\n2----Cash Transfer\n3----Deposit Cash" +
                 "\n4----Display Balance\n5----Exit");
             return selectMenu(GetInput('1', '5'));
@@ -35,6 +36,7 @@ namespace ATM_Software_View
         }
         public bool withDraw()
         {
+            Clear();
             customerDelegator wd = null;
             ATMInterface.changeTextColor(Color.Gray);
             WriteLine("\na) Fast Cash\nb) Normal Cash");
@@ -48,6 +50,7 @@ namespace ATM_Software_View
         }
         public bool fastCash()
         {
+            Clear();
             ATMInterface.changeTextColor(Color.Gray);
             WriteLine("\n1----500\n2----1000\n3----2000\n4----5000" +
                 "\n5----10000\n6----15000\n7----20000");
@@ -72,12 +75,14 @@ namespace ATM_Software_View
                 Transaction transaction = bll.withDraw(selectedCash * 500, customer.accountNo);
                 if (transaction != null)
                 {
-                    WriteLine("Cash Successfully Withdrawn!");
+                    WriteLine("\nCash Successfully Withdrawn!");
                     printRecepit(transaction, customer.accountNo);
+                    delay();
                     return true;
                 }
             }
-            errorMessage("Withdraw Failed");
+            errorMessage("\nWithdraw Failed");
+            delay();
             return true;
         }
         public bool normalCash()
@@ -102,11 +107,13 @@ namespace ATM_Software_View
             ATMInterface.changeTextColor(Color.Gray);
             if (transaction != null)
             {
-                WriteLine("Cash Successfully Withdrawn!");
+                WriteLine("\nCash Successfully Withdrawn!");
                 printRecepit(transaction, customer.accountNo);
+                delay();
                 return true;
             }
-            errorMessage("CashDrawn unsuccesfull!");
+            errorMessage("\nCashDrawn unsuccesfull!");
+            delay();
             return true;
         }
         public bool cashTransfer()
@@ -131,7 +138,11 @@ namespace ATM_Software_View
                 ATMInterface.changeTextColor(Color.Green);
                 transferTo = int.Parse(ReadLine());
                 ATMInterface.changeTextColor(Color.Gray);
+                if (transferTo == customer.accountNo)
+                    throw new Exception("You cannot transfer to yourself");         
                 Person personTo = bll.getPerson(transferTo);
+                if(personTo == null)
+                    throw new Exception("Account did not found");
                 Write($"\nYou wish to deposit Rs {requestedAmount} in account held by {personTo.Name};" +
                     $" If this information is correct please re - enter the   account number: ");
                 ATMInterface.changeTextColor(Color.Green);
@@ -144,8 +155,9 @@ namespace ATM_Software_View
                     {
                         WriteLine("Transaction confirmed.");
                         printRecepit(transaction, account.ID);
+                        delay();
+                        return true;
                     }
-                    return true;
                 }
             }
             catch (Exception ex)
@@ -154,6 +166,7 @@ namespace ATM_Software_View
                 goto inputRequestedAmount;
             }
             errorMessage("Transaction unsuccessfull!");
+            delay();
             return true;
         }
         public bool depositCash()
@@ -182,9 +195,11 @@ namespace ATM_Software_View
             {
                 WriteLine("Cash Deposited Successfully");
                 printRecepit(transaction, customer.accountNo);
+                delay();
                 return true;
             }
             errorMessage("Cash Deposited unsuccessful");
+            delay();
             return true;
         }
         private void printRecepit(Transaction transaction, int accountNo)
@@ -199,9 +214,11 @@ namespace ATM_Software_View
         }
         public bool displayBalance()
         {
+            Clear();
             ATMInterface.changeTextColor(Color.Gray);
             CustomerBLL bll = new CustomerBLL();
             bll.displayReciept(null,customer.accountNo);
+            delay();
             return true;
         }
     }

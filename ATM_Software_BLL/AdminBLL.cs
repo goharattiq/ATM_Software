@@ -10,8 +10,8 @@ namespace ATM_Software_BLL
         public int createAccount(Person person , Credentials credentials, Account account)
         {
             AdminDAL dal = new AdminDAL();
-            int accountNo = dal.getLastNumber("account.csv") + 1;
-            int personID = dal.getLastNumber("users.csv") + 1;
+            int accountNo = ATMDAL.getLastNumber("account.csv") + 1;
+            int personID = ATMDAL.getLastNumber("users.csv") + 1;
             person.id = personID;
             credentials.ID = personID;
             person.accountNo = accountNo;
